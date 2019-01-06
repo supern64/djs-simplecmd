@@ -75,3 +75,5 @@ Properties:
 - **noArgumentRule**: (Boolean) True if the command can accept any amount of arguments including 0.
 - **noReturn**: (Boolean) True if the command won't return anything and will send the response itself. Useful if you use any function that is promise-based.
 - **cooldown**: (Number) The amount of milliseconds the user has to wait before invoking a command again.
+
+If you have any issues regarding the library, you can file an issue report!
