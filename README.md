@@ -34,4 +34,5 @@ module.exports = commands
 ```
 Put this inside commands.js in the same directory as the first script. (make sure you have discord.js and this lib installed)  
 Run the code and type !help. It should reply with "Hello World"  
+
 ![Command Image](https://i.imgur.com/HDFJA3K.png "Command Image")  
