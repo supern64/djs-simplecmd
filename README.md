@@ -47,13 +47,13 @@ Options:
 - **commands**: (Array) An array of commands to use
 
 Methods:
-- **parse(message)**: Parses a message for commands
+- **parse(message)**: Parses a message for commands  
   Arguments:
   - **message**: (Message) The discord.js `Message` object to parse for commands
-- **addCommand(command)**: Adds a command to the command list
+- **addCommand(command)**: Adds a command to the command list  
   Arguments:
   - **command**: (Object) The `Command` object to add as a command
-- **setPrefix(prefix)**: Sets the prefix
+- **setPrefix(prefix)**: Sets the prefix  
   Arguments:
   - **prefix**: (String) The prefix to change to
   
