@@ -1,6 +1,7 @@
 # djs-simplecmd
 A simple command parser for discord.js  
 This module has no dependencies as this library is based of discord.js.  
+
 [![NPM](https://nodei.co/npm/djs-simplecmd.png)](https://npmjs.com/package/djs-simplecmd)
 # Usage
 To use this library, first create a `CommandParser` object (I recommend using one for each guild with the same commands for support for custom commands and custom prefix)  
