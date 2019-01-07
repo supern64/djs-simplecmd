@@ -70,6 +70,7 @@ Properties:
   This function will be passed 2 arguments which is message and args.
   - **message**: (Message) The discord.js message object that was passed.
   - **args**: (Array) An array of arguments passed.  
+
   The function must return an object with either one or both of these properties if noReturn is false:
   - **text**: (String) The text to send.
   - **embed**: (RichEmbed) The discord.js RichEmbed object to send.
