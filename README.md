@@ -5,7 +5,7 @@ This module has no dependencies as this library is based off of discord.js.
 [![NPM](https://nodei.co/npm/djs-simplecmd.png)](https://npmjs.com/package/djs-simplecmd)
 # Usage
 First, install the library in the project you want to use this with using:
-```bash
+```
 npm install djs-simplecmd
 ```
 Then, to use this library, first create a `CommandParser` object (I recommend using one for each guild with the same commands for support for custom commands and custom prefix)  
