@@ -22,7 +22,7 @@ bot.on("message", (message) => {
 })
 bot.login("[insert your token here]")
 ```
-And you're set! Now, to create commands, you can add commands individually by using the `CommandParser.addCommand` method or by specifying the `commands` option in the object like the parser. In this case, we'll use a file called `commands.js` to specity the commands.  
+And you're set! Now, to create commands, you can add commands individually by using the `CommandParser.addCommand` method or by specifying the `commands` option in the object like this example. In this case, we'll use a file called `commands.js` to specity the commands.  
 Now, inside of commands.js, we have to define the commands. This is a Hello World example.
 ```js
 const commands = [
