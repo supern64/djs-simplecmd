@@ -26,6 +26,17 @@ bot.on("message", (message) => {
 })
 bot.login("[insert your token here]")
 ```
+Or you can use `commandParse.attach` to automatically attach the command parser with the same options, and also you can access it after attachment via `message.guild.parser`!  
+```js
+const Discord = require("discord.js") 
+const commandparse = require("djs-simplecmd")
+const bot = new Discord.Client()
+bot.on("ready", (message) => {
+  console.log("Bot is ready!")
+})
+commandparse.attach(bot, {prefix: "&", commands: require("./commands.js")})
+bot.login("[insert your token here]")
+```
 And you're set! Now, to create commands, you can add commands individually by using the `CommandParser.addCommand` method or by specifying the `commands` option in the object like this example. In this case, we'll use a file called `commands.js` to specity the commands.  
 Now, inside of commands.js, we have to define the commands. This is a Hello World example.
 ```js
@@ -46,6 +57,12 @@ Run the code and type &test. It should reply with "Hello World"
 Voila! You just made a simple bot! There's more to it, of course!
 
 # Documentation
+Module Methods:
+- **attach(bot, options)**: Attaches the parser to a discord.js `Client` Object.
+  Arguments:
+  - **prefix**: (String) The prefix to use for the parser (required) 
+  - **commands**: (Array) An array of commands to use
+
 `CommandParser` class:
 
 Options:
