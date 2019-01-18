@@ -79,4 +79,13 @@ class CommandParser {
     this.prefix = prefix
   }
 }
+function attach(bot, options) {
+  bot.on("message", (message) => {
+    if (!message.guild.parser) {
+      message.guild.parser = new CommandParser(options)
+    }
+    message.guild.parser.parse(message)
+  })
+}
 module.exports.CommandParser = CommandParser
+module.exports.attach = attach
