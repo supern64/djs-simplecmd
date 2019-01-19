@@ -58,10 +58,13 @@ Voila! You just made a simple bot! There's more to it, of course!
 
 # Documentation
 Module Methods:
-- **attach(bot, options)**: Attaches the parser to a discord.js `Client` Object.
+- **attach(bot, options)**: Attaches the parser to a discord.js `Client` Object.  
   Arguments:
-  - **prefix**: (String) The prefix to use for the parser (required) 
-  - **commands**: (Array) An array of commands to use
+  - **bot**: (Client) The discord.js `Client` to attach to.
+  - **options**: (Object) The options  
+  Valid options:
+    - **prefix**: (String) The prefix to use for the parser (required) 
+    - **commands**: (Array) An array of commands to use
 
 `CommandParser` class:
 
