@@ -77,6 +77,7 @@ class CommandParser {
   setPrefix(prefix) {
     if (!prefix || prefix === "" || typeof prefix !== "string") {
       throw new Error("Prefix must be defined and must be a string and cannot be an empty string.")
+    }
     this.prefix = prefix
     this.options.prefix = prefix
   }
