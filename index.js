@@ -1,9 +1,8 @@
-// Command Parser v1.1
 class CommandParser {
   constructor(options) {
     this.options = options
-    if (!options.prefix) {
-      throw new Error("Prefix must be specified")
+    if (!options.prefix || options.prefix === "" || typeof options.prefix !== "string") {
+      throw new Error("Prefix must be defined and must be a string and cannot be an empty string.")
     }
     this.commands = options.commands || []
     this.prefix = options.prefix
@@ -14,7 +13,7 @@ class CommandParser {
     var args = messageArray.slice(1)
     var command = messageArray[0]
     if (this.commands.map(r=> this.prefix + r.name).includes(command)) {
-      var commandObject = this.commands.filter(r=> r.name == command.split('').slice(1).join(''))[0]
+      var commandObject = this.commands.filter(r=> r.name == command.split('').slice(this.prefix.length).join(''))[0]
       if (commandObject.cooldown) {
         if (this.talkedRecently.has(message.author.id)) {
           message.reply("Please wait "  + (commandObject.cooldown / 1000) + " seconds before using this command again.")
@@ -54,15 +53,15 @@ class CommandParser {
                 this.talkedRecently.delete(message.author.id);
             }, commandObject.cooldown);
           }
-          if (returns.embed && returns.text) { 
+          if (returns.embed && returns.text) {
             message.channel.send(returns.text, {embed: returns.embed})
             return
           } else if (returns.embed) {
             var embed = returns.embed
             message.channel.send({embed})
             return
-          } else { 
-            message.channel.send(returns.text) 
+          } else {
+            message.channel.send(returns.text)
           }
         }
       }
@@ -76,7 +75,10 @@ class CommandParser {
     }
   }
   setPrefix(prefix) {
+    if (!prefix || prefix === "" || typeof prefix !== "string") {
+      throw new Error("Prefix must be defined and must be a string and cannot be an empty string.")
     this.prefix = prefix
+    this.options.prefix = prefix
   }
 }
 function attach(bot, options) {

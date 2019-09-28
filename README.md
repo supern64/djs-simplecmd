@@ -11,7 +11,7 @@ npm install djs-simplecmd
 Then, to use this library, first create a `CommandParser` object (I recommend using one for each guild with the same commands for support for custom commands and custom prefix)  
 Then, on your message event, call `CommandParser.parse` with the message like this:
 ```js
-const Discord = require("discord.js") 
+const Discord = require("discord.js")
 const commandparse = require("djs-simplecmd")
 const bot = new Discord.Client()
 bot.on("ready", (message) => {
@@ -28,7 +28,7 @@ bot.login("[insert your token here]")
 ```
 Or you can use `commandParse.attach` to automatically attach the command parser with the same options, and also you can access it after attachment via `message.guild.parser`!  
 ```js
-const Discord = require("discord.js") 
+const Discord = require("discord.js")
 const commandparse = require("djs-simplecmd")
 const bot = new Discord.Client()
 bot.on("ready", (message) => {
@@ -63,13 +63,13 @@ Module Methods:
   - **bot**: (Client) The discord.js `Client` to attach to.
   - **options**: (Object) The options  
   Valid options:
-    - **prefix**: (String) The prefix to use for the parser (required) 
+    - **prefix**: (String) The prefix to use for the parser (required)
     - **commands**: (Array) An array of commands to use
 
 `CommandParser` class:
 
 Options:
-- **prefix**: (String) The prefix to use for the parser (required) 
+- **prefix**: (String) The prefix to use for the parser (required)
 - **commands**: (Array) An array of commands to use
 
 Methods:
@@ -82,13 +82,13 @@ Methods:
 - **setPrefix(prefix)**: Sets the prefix  
   Arguments:
   - **prefix**: (String) The prefix to change to
-  
+
 `Command` object:
 
 A command object is a regular object.  
 Properties:
 - **name**: (String) The name of the command to use (required)
-- **description**: (String) The description of the command 
+- **description**: (String) The description of the command
 - **defaultResponse**: (String) The default response to use if there is no function (required if function is not present)
 - **function** (Function) The function to invoke when executing the command (required if defaultResponse is not present)
   This function will be passed 2 arguments which is message and args.
@@ -103,4 +103,8 @@ Properties:
 - **noReturn**: (Boolean) True if the command won't return anything and will send the response itself. Useful if you use any function that is promise-based.
 - **cooldown**: (Number) The amount of milliseconds the user has to wait before invoking a command again.
 
-If you have any issues regarding the library, you can file an issue report!
+# Todos
+1. Add an auto argument parser system to parse a list of arguments to an object
+2. Add a way to pass custom data on the parser to the commands themselves
+
+If you have any issues regarding the library, you can file an issue report on [GitHub](https://github.com/chanonlim/djs-simplecmd)!
