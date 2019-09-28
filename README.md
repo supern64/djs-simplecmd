@@ -106,5 +106,6 @@ Properties:
 # Todos
 1. Add an auto argument parser system to parse a list of arguments to an object
 2. Add a way to pass custom data on the parser to the commands themselves
+3. Autogenerate help command
 
 If you have any issues regarding the library, you can file an issue report on [GitHub](https://github.com/chanonlim/djs-simplecmd)!
