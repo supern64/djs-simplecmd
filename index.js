@@ -1,3 +1,13 @@
+function pad(pad, str, padLeft) {
+  if (typeof str === 'undefined')
+    return pad;
+  if (padLeft) {
+    return (pad + str).slice(-pad.length);
+  } else {
+    return (str + pad).substring(0, pad.length);
+  }
+}
+
 class CommandParser {
   constructor(options) {
     this.options = options
@@ -5,11 +15,43 @@ class CommandParser {
       throw new Error("Prefix must be defined and must be a string and cannot be an empty string.")
     }
     this.commands = options.commands || []
+    this.customData = options.customData || {}
     this.prefix = options.prefix
     this.talkedRecently = new Set();
+    if (this.options.makeHelpCommand === true || this.options.makeHelpCommand == undefined) {
+      var helpArray = []
+      var helpString = ""
+      helpString += pad(Array(this.commands.map(r=> r.name).reduce(function (a, b) { return a.length > b.length ? a : b; }).length + 2).join(" "), "Name") + "Description\n"
+      for (var i of this.commands) {
+        var paddedName = pad(Array(this.commands.map(r=> r.name).reduce(function (a, b) { return a.length > b.length ? a : b; }).length + 2).join(" "), i.name)
+        helpString += paddedName + i.description + "\n"
+        if (this.commmands.indexOf(i) % 30 === 0) {
+          helpArray.push(helpString)
+          helpString = ""
+        }
+      }
+      this.addCommand({
+        name: "help",
+        description: "Displays the help message.",
+        noArgumentRule: true,
+        noReturn: true,
+        // arguments: ['command'] TODO
+        function: (message, args) => {
+          if (args.command) {
+            // TODO
+          } else {
+            message.author.reply("the help message has been sent by DMs!")
+            for (var i of helpArray) {
+              message.author.send(i)
+            }
+          }
+        }
+      })
+    }
   }
   parse(message) {
-    var messageArray = message.content.split(" ")
+    var messageArray = message.content.match(/(?:[^\s"]+|"[^"]*")+/g)
+    var messageArray = messageArray.map(r=> r.replace('"', "'"))
     var args = messageArray.slice(1)
     var command = messageArray[0]
     if (this.commands.map(r=> this.prefix + r.name).includes(command)) {
@@ -29,7 +71,15 @@ class CommandParser {
         message.channel.send("Correct Usage: " + this.prefix + commandObject.name + " " + commandObject.arguments.map(r=> "[" + r + "]").join(' ') + "\nDescription: " + commandObject.description || "None")
         return
       } else {
-        var returns = commandObject.function ? commandObject.function(message, args) : undefined
+        if (!commandObject.arrayArgs) {
+          var arrayArgs = args
+          args = {}
+          var commandArgs = commandObject.arguments
+          for (var i of arrayArgs) {
+            args[commandArgs[arrayArgs.indexOf(i)]] = i
+          }
+        }
+        var returns = commandObject.function ? commandObject.function(message, args, this.customData) : undefined
         if (!returns) {
           if (commandObject.noReturn) {
             if (commandObject.cooldown) {

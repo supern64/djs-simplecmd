@@ -4,7 +4,7 @@
   "description": "A simple command parser for discord.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/chanonlim/djs-simplecmd/issues"
   },
-  "homepage": "https://github.com/chanonlim/djs-simplecmd#readme"
+  "homepage": "https://github.com/chanonlim/djs-simplecmd#readme",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
 }
