@@ -18,14 +18,14 @@ class CommandParser {
     this.customData = options.customData || {}
     this.prefix = options.prefix
     this.talkedRecently = new Set();
-    if (this.options.makeHelpCommand === true || this.options.makeHelpCommand == undefined) {
+    if ((this.options.makeHelpCommand === true || this.options.makeHelpCommand == undefined) && this.commands.length > 0) {
       var helpArray = []
       var helpString = ""
       helpString += pad(Array(this.commands.map(r=> r.name).reduce(function (a, b) { return a.length > b.length ? a : b; }).length + 2).join(" "), "Name") + "Description\n"
       for (var i of this.commands) {
         var paddedName = pad(Array(this.commands.map(r=> r.name).reduce(function (a, b) { return a.length > b.length ? a : b; }).length + 2).join(" "), i.name)
         helpString += paddedName + i.description + "\n"
-        if (this.commmands.indexOf(i) % 30 === 0) {
+        if (this.commands.indexOf(i) % 30 === 0) {
           helpArray.push(helpString)
           helpString = ""
         }
@@ -51,7 +51,7 @@ class CommandParser {
   }
   parse(message) {
     var messageArray = message.content.match(/(?:[^\s"]+|"[^"]*")+/g)
-    var messageArray = messageArray.map(r=> r.replace('"', "'"))
+    var messageArray = messageArray.map(r=> r.replace(/"/g, ""))
     var args = messageArray.slice(1)
     var command = messageArray[0]
     if (this.commands.map(r=> this.prefix + r.name).includes(command)) {
