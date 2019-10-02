@@ -8,6 +8,10 @@ First, install the library in the project you want to use this with using:
 ```
 npm install djs-simplecmd
 ```
+**Important!** The GitHub version is still the development version as the dev branch is still unused.  
+When 2.0.0 is released, the development will move to the dev branch as intended.  
+I apologize for any inconvenience.  
+
 Then, to use this library, first create a `CommandParser` object (I recommend using one for each guild with the same commands for support for custom commands and custom prefix)  
 Then, on your message event, call `CommandParser.parse` with the message like this:
 ```js
@@ -102,10 +106,5 @@ Properties:
 - **noArgumentRule**: (Boolean) True if the command can accept any amount of arguments including 0.
 - **noReturn**: (Boolean) True if the command won't return anything and will send the response itself. Useful if you use any function that is promise-based.
 - **cooldown**: (Number) The amount of milliseconds the user has to wait before invoking a command again.
-
-# Todos
-1. Add an auto argument parser system to parse a list of arguments to an object
-2. Add a way to pass custom data on the parser to the commands themselves
-3. Autogenerate help command
 
 If you have any issues regarding the library, you can file an issue report on [GitHub](https://github.com/chanonlim/djs-simplecmd)!
