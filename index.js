@@ -1,3 +1,7 @@
+const find = require("lodash.find")
+const pull = require("lodash.pull")
+const get = require("lodash.get")
+
 function pad(pad, str, padLeft) {
   if (typeof str === 'undefined')
     return pad;
@@ -14,22 +18,36 @@ class CommandParser {
     if (!options.prefix || options.prefix === "" || typeof options.prefix !== "string") {
       throw new Error("Prefix must be defined and must be a string and cannot be an empty string.")
     }
+    for (var i of options.commands) {
+      if (i.name && i.description && (i.function || i.defaultResponse)) {
+        continue
+      } else {
+        throw new Error("Command '" + i.name + "' has either no name, no description or no function or a default response.")
+        return
+      }
+    }
+    this.generateHelpCommand = (self) => {
+      if ((self.options.makeHelpCommand === true || self.options.makeHelpCommand == undefined) && self.commands.length > 0) {
+        var helpArray = []
+        var helpString = ""
+        helpString += pad(Array(self.commands.map(r=> r.name).reduce(function (a, b) { return a.length > b.length ? a : b; }).length + 2).join(" "), "Name:") + "Description:\n"
+        for (var i of self.commands) {
+          var paddedName = pad(Array(self.commands.map(r=> r.name).reduce(function (a, b) { return a.length > b.length ? a : b; }).length + 2).join(" "), i.name)
+          helpString += paddedName + i.description + "\n"
+          if (self.commands.indexOf(i) % 30 === 0) {
+            helpArray.push(helpString)
+            helpString = ""
+          }
+        }
+        self.helpArray = helpArray
+      }
+    }
     this.commands = options.commands || []
     this.customData = options.customData || {}
     this.prefix = options.prefix
     this.talkedRecently = new Set();
     if ((this.options.makeHelpCommand === true || this.options.makeHelpCommand == undefined) && this.commands.length > 0) {
-      var helpArray = []
-      var helpString = ""
-      helpString += pad(Array(this.commands.map(r=> r.name).reduce(function (a, b) { return a.length > b.length ? a : b; }).length + 2).join(" "), "Name") + "Description\n"
-      for (var i of this.commands) {
-        var paddedName = pad(Array(this.commands.map(r=> r.name).reduce(function (a, b) { return a.length > b.length ? a : b; }).length + 2).join(" "), i.name)
-        helpString += paddedName + i.description + "\n"
-        if (this.commands.indexOf(i) % 30 === 0) {
-          helpArray.push(helpString)
-          helpString = ""
-        }
-      }
+      this.generateHelpCommand(this)
       this.addCommand({
         name: "help",
         description: "Displays the help message.",
@@ -41,7 +59,7 @@ class CommandParser {
             // TODO
           } else {
             message.author.reply("the help message has been sent by DMs!")
-            for (var i of helpArray) {
+            for (var i of this.helpArray) {
               message.author.send(i)
             }
           }
@@ -93,7 +111,14 @@ class CommandParser {
           if (!commandObject.defaultResponse) {
             throw new Error("No default response specified|is null and function returned undefined|null.")
           } else {
-            message.channel.send(commandObject.defaultResponse)
+            var response = commandObject.defaultResponse
+            var values = {
+              message: message,
+              args: args,
+              customData: this.customData
+            }
+            var response = response !== null && response !== undefined ? response.replace(/\{\{([^}]+)\}\}/g, function(i, match) { return get(values, match) }) : null
+            message.channel.send(response)
             return
           }
         } else {
@@ -118,10 +143,39 @@ class CommandParser {
     }
   }
   addCommand(command) {
-    if (command.name && (command.function || command.defaultResponse)) {
+    if (command.name && command.description && (command.function || command.defaultResponse)) {
       this.commands.push(command)
+      this.generateHelpCommand(this)
     } else {
       throw new Error("Command must have a name and either a function or a default response.")
+    }
+  }
+  removeCommand(commandName) {
+    if (!commandName || commandName === "") {
+      throw new Error("Command name must not be empty.")
+    } else {
+      var commandObject = find(this.commands, {name: commandName})
+      if (!commandObject) {
+        throw new Error("Command not found.")
+      } else {
+        pull(this.commands, commandObject)
+        this.generateHelpCommand(this)
+      }
+    }
+  }
+  editCommand(commandName, command) {
+    if (!commandName || commandName === "") {
+      throw new Error("Command name must not be empty.")
+    } else {
+      var commandObject = find(this.commands, {name: commandName})
+      if (!commandObject) {
+        throw new Error("Command not found.")
+      } else {
+        Object.assign(commandObject, command)
+        if (command.name || command.description) {
+          this.generateHelpCommand(this)
+        }
+      }
     }
   }
   setPrefix(prefix) {
