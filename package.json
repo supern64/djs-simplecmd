@@ -4,7 +4,7 @@
   "description": "A simple command parser for discord.js",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/chanonlim/djs-simplecmd#readme",
   "devDependencies": {
-    "discord.js": "^11.5.1",
     "jest": "^24.9.0"
   },
   "dependencies": {
